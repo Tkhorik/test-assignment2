@@ -11,10 +11,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.common.TestBase;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.fail;
 
 
 public class FirstTest extends TestBase {
@@ -30,33 +32,35 @@ public class FirstTest extends TestBase {
 //        pushTheApplyButton(); // sometimes button does'nt works
         Thread.sleep(3000);
         saveNameFromFirsItem();
-switchToFirstElementPageViaLink();
-        saveNameFromFirsItem();
-verifyElementTitles();
+        switchToFirstElementPageViaLink();
+        verifyElementTitles();
     }
 
     private void verifyElementTitles() {
-        String virifiedElement =  driver.findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals("названия не совпадают",virifiedElement,saveNameFromFirsItem().);
+        String virifiedElement = driver.findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals("названия не совпадают", virifiedElement, elementName1);
     }
 
-    private String saveNameFromFirsItem() {
-       String elementName = driver.findElement(By.xpath("(//*[@class=\"layout layout_type_search i-bem\"]//*[@class=\"n-snippet-cell2__title\"])[1]")).getText();
-       return elementName;
+    private void setElementName1(String elementName1) {
+        this.elementName1 = elementName1;
     }
+
+    private String elementName1;
+
+    private String saveNameFromFirsItem() {
+        String elementName = driver.findElement(By.xpath("(//*[@class='n-snippet-cell2__title'])[1]")).getText();
+        setElementName1(elementName);
+        return elementName;
+    }
+
     private String returnLinkFromFirsItem() {
-        String elementLink = driver.findElement(By.xpath("(//*[@class=\"layout layout_type_search i-bem\"]//*[@class=\"n-snippet-cell2__title\"])[1]")).getAttribute("href");
-        return elementLink;
+        return driver.findElement(By.xpath("(.//*[@class='n-snippet-cell2__title']//a)[1]")).getAttribute("href");
+
     }
 
     private void switchToFirstElementPageViaLink() {
         driver.get(returnLinkFromFirsItem());
     }
-
-/*    private void insertFirtsListElementAndSearch() {
-        driver.findElement(By.id("header-search")).sendKeys(firstTVmodelName);
-    }*/
-
 
     private void shareFirstElement() {
         String tvModelNamne = driver.findElement(By.xpath("//SPAN[@class='snippet-card__header-text']")).getText();
@@ -92,8 +96,6 @@ verifyElementTitles();
         String Samsung = "html/body/div[1]/div[4]/div[2]/div[2]/div[3]/div/div[4]/div[2]/div/div[1]/div[7]/a/span/label";
         driver.findElement(By.xpath(LG)).click();
         driver.findElement(By.xpath(Samsung)).click();
-        //LABEL[@class='checkbox__label'][text()='LG']
-        //LABEL[@class='checkbox__label'][text()='Samsung']
     }
 
     public void searchIfNotHiddenAndSelect(String checkBox) {
@@ -107,25 +109,25 @@ verifyElementTitles();
         }
     }
 
-    public void selectPhoneModel(String phoneModel) {
+    private void selectPhoneModel(String phoneModel) {
         String checkBoxselected = ("//*[@type='checkbox']/..//*[contains(text(),'" + phoneModel + "')]");
         driver.findElement(By.xpath(checkBoxselected)).click();
     }
 
-    public void setPriceFrom(int price) throws InterruptedException {
+    private void setPriceFrom(int price) {
         driver.findElement(By.xpath("(//*[contains(text(),'Цена')]/..//input)[last()-2]")).sendKeys(String.valueOf(price));
     }
 
-    protected void selectSecrion(String s) {
+    private void selectSecrion(String s) {
         driver.findElement(By.linkText(s)).click();
     }
 
-    protected void switchToYandexMarketTab() {
+    private void switchToYandexMarketTab() {
         WebElement marketTab = By.xpath("//*[contains(text(),'Маркет')][@data-id = 'market']").findElement(driver);
         marketTab.click();
     }
 
-    protected void sweetchToElectronicks() {
+    private void sweetchToElectronicks() {
         driver.findElement(By.linkText("Электроника")).click();
     }
 
@@ -141,7 +143,7 @@ verifyElementTitles();
         try {
             wait.until(pageLoad);
         } catch (Throwable pageLoadWaitError) {
-            assertFalse("Timeout during page load", true);
+            fail("Timeout during page load");
         }
     }
 }
