@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.common.TestBase;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class FirstTest extends TestBase {
         goToYandexPage();
         switchToYandexMarketTab();
         sweetchToElectronicks();
-        selectSecrion("Мобильные телефоны");
+        clickOnText("Мобильные телефоны");
         selectPhoneModel("Samsung");
         setPriceFrom(40000);
 //        pushTheApplyButton(); // sometimes button does'nt works
@@ -118,7 +117,7 @@ public class FirstTest extends TestBase {
         driver.findElement(By.xpath("(//*[contains(text(),'Цена')]/..//input)[last()-2]")).sendKeys(String.valueOf(price));
     }
 
-    private void selectSecrion(String s) {
+    protected void clickOnText(String s) {
         driver.findElement(By.linkText(s)).click();
     }
 

@@ -19,9 +19,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static org.openqa.selenium.By.xpath;
+
 public class TestBase {
 
     protected static WebDriver driver;
+
 
     @BeforeClass
     public static void setUp() {
@@ -33,7 +36,7 @@ public class TestBase {
         driver.manage().deleteAllCookies();
     }
 
-    protected void goToYandexPage() throws InterruptedException {
+    protected void goToYandexPage() {
         final String s = System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
@@ -41,37 +44,15 @@ public class TestBase {
 
     }
 
-
-/*    public void tryToLogOut() {
-        if (driver.findElements(By.id("t-user-logout")).size() == 1) {
-            driver.findElement(By.id("t-user-logout")).click();
-        }
-    }*/
-
-
-/*    @Rule  // reures uses for configurations in CI TimeCity
-    public TestRule testWatcher = new TestWatcher() {*/
-
-/*
-        @Override
-        public void succeeded(Description test){
-            for (LogEntry log : ((EventFiringWebDriver) driver).getWrappedDriver().manage().logs().get(LogType.DRIVER).getAll()) {
-                System.out.println("Level:" + log.getLevel().getName());
-                System.out.println("Message:" + log.getMessage());
-                System.out.println("Time:" + log.getTimestamp());
-                System.out.println("-----------------------------------------------");
-            }
-            System.out.println();
-        }
-*/
-
-
-
+    protected void clickOnText(String s) {
+        driver.findElement(xpath(".//*[contains(text(),'" + s + "')]"));
+    }
 
     @AfterClass
     public static void tearDown() {
         if (driver != null) {
             System.out.println("Closing chrome browser");
-            driver.quit();
+//            driver.quit();
         }
-    }}
+    }
+}
