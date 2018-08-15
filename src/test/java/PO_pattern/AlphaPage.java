@@ -7,13 +7,17 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
-public class AlphaPage {
+import static org.openqa.selenium.By.xpath;
+
+public class AlphaPage extends AbstactPage {
 
     @Name("Vacancy")
     @FindBy(xpath = "//*[contains(text(),'Вакансии')]")
     Button vacancyBytton;
 
-    AlphaPage(WebDriver driver) {
-        HtmlElementLoader.populatePageObject(this, driver);
+
+
+    public AlphaPage(WebDriver driver) {
+        super(driver);
     }
 }

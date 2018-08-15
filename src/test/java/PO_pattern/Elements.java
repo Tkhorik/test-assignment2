@@ -8,16 +8,5 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 
 public class Elements extends HtmlElement {
 
-    @Name("Search request input")
-    @FindBy(xpath = ".//*[@title=\"Search\"]")
-    private TextInput requestInput;
 
-    @Name("Search button")
-    @FindBy(className = "b-form-button__input")
-    private Button searchButton;
-
-    public void search(String request) {
-        requestInput.sendKeys(request);
-        searchButton.click();
-    }
 }

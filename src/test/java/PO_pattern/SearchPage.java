@@ -1,16 +1,14 @@
 package PO_pattern;
 
-import PO_pattern.Elements;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextInput;
-import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
-public class SearchPage extends HtmlElement {
+public class SearchPage extends AbstactPage {
 
     @Name("Search request input")
     @FindBy(xpath = "//INPUT[@id='lst-ib']")
@@ -24,18 +22,34 @@ public class SearchPage extends HtmlElement {
     @FindBy(xpath = ".//A[@href='https://alfabank.ru/'][contains(text(),'Альфа-Банк')]")
     Button searchResult;
 
+/*    @Name("Search request input")
+    @FindBy(xpath = ".//*[@title=\"Search\"]")
+    private TextInput requestInput;*/
+
+    public SearchPage() {
+        super();
+    }
+
+/*    @Name("Search button")
+    @FindBy(className = "b-form-button__input")
+    private Button searchButton;*/
+
+/*
+    public void search(String request) {
+        requestInput.sendKeys(request);
+        searchButton.click();
+    }*/
+
     public void search(String request) throws InterruptedException {
         requestInput.sendKeys(request);
         requestInput.sendKeys(Keys.ENTER);
     }
 
-    SearchPage(WebDriver driver) {
-        HtmlElementLoader.populatePageObject(this, driver);
+    public SearchPage(WebDriver driver) {
+        super(driver);
     }
 
-    public void switchToResilt(String s) {
+    public void switchToFirstResult(String s) {
         searchResult.click();
     }
 }
-
-

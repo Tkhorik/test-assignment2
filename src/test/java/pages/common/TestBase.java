@@ -45,7 +45,7 @@ public class TestBase {
     }
 
     protected void clickOnText(String s) {
-        driver.findElement(xpath(".//*[contains(text(),'" + s + "')]"));
+        driver.findElement(xpath(".//*[contains(text(),'" + s + "')]")).click();
     }
 
     @AfterClass

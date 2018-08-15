@@ -5,9 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import pages.common.TestBase;
 
-public class SecondTest_UsingPageObjectsPattern extends TestBase {
-    private SearchPage searchPage = new SearchPage(driver);
+public class TestCase2 extends TestBase {
+    private AbstactPage abstactPage = new AbstactPage(driver);
     private AlphaPage alphaPage = new AlphaPage(driver);
+    private SearchPage searchPage = new SearchPage(driver);
 
     @Before
     public void loadPage() throws InterruptedException {
@@ -18,8 +19,8 @@ public class SecondTest_UsingPageObjectsPattern extends TestBase {
     @Test
     public void secondTest() throws InterruptedException {
         searchPage.search("Альфа-Банк");
-        searchPage.switchToResilt("alfabank.ru");
-        clickOnText("Вакансии"); //todo: валится на поиске элемента, поправить
+        searchPage.switchToFirstResult("alfabank.ru");
+        clickOnText("Вакансии");
         Thread.sleep(3000);
         clickOnText("О работе в банке");
 
