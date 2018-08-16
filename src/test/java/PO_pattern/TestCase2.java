@@ -8,10 +8,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import pages.common.TestBase;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Date;
 
 public class TestCase2 extends TestBase {
@@ -77,17 +74,29 @@ public class TestCase2 extends TestBase {
         String v = cap.getVersion();
         System.out.println(v);
 
-        String fileName = new StringBuilder((new Date().toString()))
-                .append("%")
+        String fileName1 = new StringBuilder((new Date().toString()))
+                .append("_")
                 .append(browserName)
-                .append("%")
-                .append(prepareEngineNameString()).toString();
-        FileUtils.writeStringToFile(new File(fileName), alphaPage.vacancyTextBlock.getText()); //todo: bug with filename should be fixed
-//        PrintWriter out = new PrintWriter(fileName);
-//        out.println(alphaPage.vacancyTextBlock.getText());
+                .append("_")
+                .append(prepareEngineNameString()).append(".txt").toString();
+        String fileName = fileName1.replaceAll("\\s+", "_").replaceAll(":", "-").trim();
+        System.out.println(fileName);
 
+
+        Writer writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(fileName), "utf-8"));
+            writer.write(alphaPage.vacancyTextBlock.getText());
+            System.out.println("запись в файл была произведена");
+        } catch (IOException ex) {
+            // Report
+        } finally {
+            try {
+                writer.close();
+            } catch (Exception ex) {/*ignore*/}
+        }
     }
-
 
 
     @After
