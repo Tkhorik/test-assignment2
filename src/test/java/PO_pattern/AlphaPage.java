@@ -9,7 +9,7 @@ import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 import static org.openqa.selenium.By.xpath;
 
-class AlphaPage extends AbstactPage {
+public class AlphaPage extends AbstactPage {
 
     @Name("Vacancy")
     @FindBy(xpath = "//*[contains(text(),'Вакансии')]")
@@ -17,11 +17,12 @@ class AlphaPage extends AbstactPage {
 
     @Name("VacancyTextBlock")
     @FindBy(xpath = ".//*[@class='info']/p[1]")
+    public
     Button vacancyTextBlock;
 
 
 
-    AlphaPage(WebDriver driver) {
+    public AlphaPage(WebDriver driver) {
         super(driver);
     }
 }

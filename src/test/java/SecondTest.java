@@ -1,6 +1,6 @@
-package PO_pattern;
-
-import org.apache.commons.io.FileUtils;
+import PO_pattern.AbstactPage;
+import PO_pattern.AlphaPage;
+import PO_pattern.SearchPage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import pages.common.TestBase;
 import java.io.*;
 import java.util.Date;
 
-public class TestCase2 extends TestBase {
+public class SecondTest extends TestBase {
     private AbstactPage abstactPage = new AbstactPage(driver);
     private AlphaPage alphaPage = new AlphaPage(driver);
     private SearchPage searchPage = new SearchPage(driver);
@@ -34,7 +34,6 @@ public class TestCase2 extends TestBase {
 
     @Test
     public void secondTest() throws InterruptedException {
-
         saveSearchEngineName();
         prepareEngineNameString();
         searchPage.search("Альфа-Банк");
@@ -43,11 +42,7 @@ public class TestCase2 extends TestBase {
         Thread.sleep(3000);
         clickOnText("О работе в банке");
         Thread.sleep(3000);
-        try {
-            saveVacancyTextBlockIntoFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveVacancyTextBlockIntoFile();
     }
 
     private String saveSearchEngineName() {
@@ -60,35 +55,33 @@ public class TestCase2 extends TestBase {
         return (afterBeginingStringRemoving.substring(0, afterBeginingStringRemoving.indexOf(".")));
     }
 
-    private void saveVacancyTextBlockIntoFile() throws IOException {
+    private void saveVacancyTextBlockIntoFile() {
 /*
         Имя должно содержать дату и время прогона.
                 Имя должно содержать название браузера, в котором совершался прогон.
                 Имя должно содержать название поисковой системы*/
-        System.out.println(new Date().toString());
-        Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
-        String browserName = cap.getBrowserName().toLowerCase();
-        System.out.println(browserName);
-        String os = cap.getPlatform().toString();
-        System.out.println(os);
-        String v = cap.getVersion();
-        System.out.println(v);
 
+        String browserName = prepareFilenameString();
+        String fileName = processTheString(browserName);
+        saveTextIntoFile(fileName);
+    }
+
+    private String processTheString(String browserName) {
         String fileName1 = new StringBuilder((new Date().toString()))
                 .append("_")
                 .append(browserName)
                 .append("_")
                 .append(prepareEngineNameString()).append(".txt").toString();
-        String fileName = fileName1.replaceAll("\\s+", "_").replaceAll(":", "-").trim();
-        System.out.println(fileName);
+        return fileName1.replaceAll("\\s+", "_").replaceAll(":", "-").trim();
+    }
 
-
+    private void saveTextIntoFile(String fileName) {
         Writer writer = null;
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(fileName), "utf-8"));
             writer.write(alphaPage.vacancyTextBlock.getText());
-            System.out.println("запись в файл была произведена");
+            System.out.println("запись была произведена в файл " + fileName);
         } catch (IOException ex) {
             // Report
         } finally {
@@ -96,6 +89,14 @@ public class TestCase2 extends TestBase {
                 writer.close();
             } catch (Exception ex) {/*ignore*/}
         }
+    }
+
+    private String prepareFilenameString() {
+        Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+        String browserName = cap.getBrowserName().toLowerCase();
+        String os = cap.getPlatform().toString();
+        String v = cap.getVersion();
+        return browserName;
     }
 
 

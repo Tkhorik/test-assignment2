@@ -1,6 +1,3 @@
-package com.seleniumtest.app;
-
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
