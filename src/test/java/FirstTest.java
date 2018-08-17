@@ -11,7 +11,6 @@ import pages.common.TestBase;
 
 import java.util.List;
 
-import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.fail;
 
 
@@ -33,8 +32,8 @@ public class FirstTest extends TestBase {
     }
 
     private void verifyElementTitles() {
-        String virifiedElement = driver.findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals("названия не совпадают", virifiedElement, elementName1);
+        String verifiedElement = driver.findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals("названия не совпадают", verifiedElement, elementName1);
     }
 
     private void setElementName1(String elementName1) {
@@ -59,8 +58,8 @@ public class FirstTest extends TestBase {
     }
 
     private void shareFirstElement() {
-        String tvModelNamne = driver.findElement(By.xpath("//SPAN[@class='snippet-card__header-text']")).getText();
-        System.out.println(tvModelNamne);
+        String tvModelName = driver.findElement(By.xpath("//SPAN[@class='snippet-card__header-text']")).getText();
+        System.out.println(tvModelName);
     }
 
     public void countAndVerifyElementsOnThePage() throws InterruptedException {
@@ -131,7 +130,8 @@ public class FirstTest extends TestBase {
         ExpectedCondition<Boolean> pageLoad = new
                 ExpectedCondition<Boolean>() {
                     public Boolean apply(WebDriver driver) {
-                        return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                        return ((JavascriptExecutor) driver).executeScript("return document.readyState")
+                                .equals("complete");
                     }
                 };
 

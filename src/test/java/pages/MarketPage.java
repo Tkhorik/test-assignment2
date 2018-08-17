@@ -9,7 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import pages.common.AnyPage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class MarketPage extends AnyPage {
     private List<WebElement> yandexMarketTab;
 
 
-    public void initialize() throws IOException {
+    public void initialize() {
 
     }
 
@@ -44,10 +43,8 @@ public class MarketPage extends AnyPage {
     }
 
     private void switchToYandexMarketTab() {
-    WebElement marketTab = yandexMarketTab.get(1);
-    marketTab.click();
-/*        driver.findElement(By.xpath(String.format("/*//*[@id='ui-datepicker-div']//a[text()='%s']", todayDay))).click();
-        orderCallBack_timeOfCallList.get(0).click();*/
+        WebElement marketTab = yandexMarketTab.get(1);
+        marketTab.click();
     }
 
     private void sweetchToElectronicks() {
@@ -61,6 +58,7 @@ public class MarketPage extends AnyPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return driver.findElement(By.xpath("//*[@id='acc-content']/div[2]/div[2]")).getText().replaceAll("\\s", "");
+        return driver.findElement(By.xpath("//*[@id='acc-content']/div[2]/div[2]")).getText()
+                .replaceAll("\\s", "");
     }
 }

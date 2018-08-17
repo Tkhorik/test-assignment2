@@ -1,4 +1,3 @@
-import PO_pattern.AbstactPage;
 import PO_pattern.AlphaPage;
 import PO_pattern.SearchPage;
 import org.junit.After;
@@ -12,7 +11,6 @@ import java.io.*;
 import java.util.Date;
 
 public class SecondTest extends TestBase {
-    private AbstactPage abstactPage = new AbstactPage(driver);
     private AlphaPage alphaPage = new AlphaPage(driver);
     private SearchPage searchPage = new SearchPage(driver);
 
@@ -27,7 +25,7 @@ public class SecondTest extends TestBase {
     private String searchEngineName;
 
     @Before
-    public void loadPage() throws InterruptedException {
+    public void loadPage() {
         driver.manage().window().maximize();
         driver.get("http://www.google.com");
     }
@@ -50,17 +48,12 @@ public class SecondTest extends TestBase {
     }
 
     private String prepareEngineNameString() {
-        String stringFromCommanline = saveSearchEngineName();
-        String afterBeginingStringRemoving = (stringFromCommanline.substring(stringFromCommanline.indexOf(".") + 1));
-        return (afterBeginingStringRemoving.substring(0, afterBeginingStringRemoving.indexOf(".")));
+        String stringFromCommandline = saveSearchEngineName();
+        String afterBeginningStringRemoving = (stringFromCommandline.substring(stringFromCommandline.indexOf(".") + 1));
+        return (afterBeginningStringRemoving.substring(0, afterBeginningStringRemoving.indexOf(".")));
     }
 
     private void saveVacancyTextBlockIntoFile() {
-/*
-        Имя должно содержать дату и время прогона.
-                Имя должно содержать название браузера, в котором совершался прогон.
-                Имя должно содержать название поисковой системы*/
-
         String browserName = prepareFilenameString();
         String fileName = processTheString(browserName);
         saveTextIntoFile(fileName);
@@ -81,12 +74,14 @@ public class SecondTest extends TestBase {
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(fileName), "utf-8"));
             writer.write(alphaPage.vacancyTextBlock.getText());
-            System.out.println("запись была произведена в файл " + fileName);
+            System.out.println("\nзапись была произведена в файл " + fileName);
         } catch (IOException ex) {
-            // Report
+            System.out.println(ex.getMessage());
         } finally {
             try {
-                writer.close();
+                if (writer != null) {
+                    writer.close();
+                }
             } catch (Exception ex) {/*ignore*/}
         }
     }
@@ -98,7 +93,6 @@ public class SecondTest extends TestBase {
         String v = cap.getVersion();
         return browserName;
     }
-
 
     @After
     public void closeDriver() {
